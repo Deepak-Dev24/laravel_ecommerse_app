@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\adminLoginController;
+use App\Http\Controllers\admin\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +19,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('admin/login', [adminLoginController::class , 'index'])->name('adming.login');
+
+Route::group(['prefix' => 'admin'], function () {
+
+    // Routes for guests (not logged in admins)
+    Route::group(['middleware' => 'admin.guest'], function () {
+        // Example: login routes
+        Route::get('/login', [adminLoginController::class , 'index'])->name('admin.login');
+        Route::post('/authenticate', [adminLoginController::class , 'authenticate'])->name('admin.authenticate');
+
+    });
+
+    // Routes for authenticated admins
+    Route::group(['middleware' => 'admin.auth'], function () {
+
+         Route::get('/dashboard', [HomeController::class , 'index'])->name('admin.dashboard');
+         Route::get('/logout', [HomeController::class , 'logout'])->name('admin.logout');
+
+        
+    });
+
+});
