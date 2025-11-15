@@ -3,21 +3,21 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+use App\Models\Category;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\category>
- */
 class CategoryFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Category::class;
+
     public function definition(): array
     {
+        $name = fake()->words(2, true);
+
         return [
-            //
+            'name' => $name,
+            'slug' => Str::slug($name),
+            'status' => rand(0, 1),
         ];
     }
 }
