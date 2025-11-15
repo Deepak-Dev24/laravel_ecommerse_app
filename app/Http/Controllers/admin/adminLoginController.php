@@ -17,7 +17,10 @@ class adminLoginController extends Controller
               'password'=>'required|',
          ]);
           if($validator->passes()){
-                if(Auth::guard('admin')->attempt(['email'=>$request->email, 'password'=>$request->password],$request->get('remember')))
+                if(Auth::guard('admin')->attempt([
+                    'email'=>$request->email, 
+                    'password'=>$request->password
+                ],$request->get('remember')))
                 {
                     $admin=Auth::guard('admin')->user();
                     if($admin->role==2){
