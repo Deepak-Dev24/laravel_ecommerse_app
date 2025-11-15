@@ -9,8 +9,12 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    public function index(){
-        $categories = Category::orderBy('id', 'ASC')->paginate(10);
+    public function index(Request $request){
+        $categories = Category::orderBy('id', 'ASC');
+        if(!empty($request->get('keyword'))){
+          $categories= $categories->where('name', 'like' , '%'.$request->get('keyword').'%');
+        }
+        $categories = $categories->paginate(8);
         return view('admin.category.list',compact('categories'));
     }
     public function create(){

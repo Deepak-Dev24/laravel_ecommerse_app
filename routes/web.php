@@ -25,6 +25,7 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin'], function () {
 
+    
     // Routes for guests (not logged in admins)
     Route::group(['middleware' => 'admin.guest'], function () {
         // Example: login routes
