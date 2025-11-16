@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Category;
 
+use function PHPUnit\Framework\isNull;
+
 class CategoryController extends Controller
 {
     public function index(Request $request){
@@ -33,7 +35,7 @@ class CategoryController extends Controller
            $categry->status= $request->status;
            $categry->save();
 
-         //  $request->session()->flash('success', 'Category Added Successfully');
+         session()->flash('success', 'Category Added Successfully');
 
 
            return response()->json([
@@ -53,4 +55,17 @@ class CategoryController extends Controller
     public function update(){
 
     }
+   public function delete($id){
+    $category = Category::find($id);
+
+    if ($category) {
+        $category->delete();
+        return redirect()->route('categories.index')
+                         ->with('success', 'Slug delete successfully.');
+    }
+
+    return redirect()->route('categories.index')
+                     ->with('error', 'Slug not found!');
+}
+
 }

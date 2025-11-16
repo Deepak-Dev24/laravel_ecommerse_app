@@ -77,6 +77,7 @@
             dataType: 'json',
             success: function(response) {
                 if (response['status'] == true) {
+                window.location.href="{{route('categories.index')}}"
                     $('#name').removeClass('is-invalid')
                         .siblings('p')
                         .removeClass('invalid-feedback')
